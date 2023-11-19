@@ -1,0 +1,23 @@
+#配置端口
+server:
+  port: 8090
+  address: 10.128.56.41
+#  address:  192.168.33.4
+
+#配置数据源
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/plane
+    username: root
+    password: 123456
+
+# Mybatis配置
+mybatis:
+  # 扫描包
+  type-aliases-package: com.niit.pojo
+  # 扫描mapper配置文件
+  mapper-locations: classpath:mapper/*.xml
+  # 开启驼峰命名
+  configuration:
+    map-underscore-to-camel-case: true

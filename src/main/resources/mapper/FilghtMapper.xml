@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/schema/mybatis-3-mapper.dtd">
+<mapper namespace="com.niit.mapper.FlightMapper">
+
+    <!--公共的SQL片段 -->
+    <sql id="flightSql">
+        select `plane_id`, `company_name`, `model`,`price`, remain_seats
+    </sql>
+    <!--查询价格-->
+    <select id="selectPrice" parameterType="Integer" resultType="flight">
+        select price from flight where plane_id = #{planeId}
+    </select>
+    <!--查询所有航班-->
+    <select id="selectAll" resultType="flight">
+        <include refid="flightSql"></include>
+        from flight
+    </select>
+    <!--搜索查询航班-->
+    <select id="selectFlightById" parameterType="int" resultType="flight">
+        <include refid="flightSql"></include>
+        from flight where plane_id = #{planeId}
+    </select>
+
+    <!--添加航班-->
+    <insert id="insertFlight" parameterType="flight">
+        INSERT into flight(company_name,model,price,remain_seats)
+        VALUES(
+        #{companyName},
+        #{model},
+        #{price},
+        #{remainSeats}
+        )
+    </insert>
+    <!--更新航班-->
+    <update id="updateFlight" parameterType="flight">
+        update flight
+        set company_name = #{companyName},
+        model = #{model},
+        price = #{price},
+        remain_seats = #{remainSeats}
+        where plane_id = #{planeId}
+    </update>
+    <!--删除航班-->
+    <delete id="deleteFlight" parameterType="flight">
+        delete from flight where plane_id = #{planeId}
+    </delete>
+
+    <!--批量插入航班-->
+    <insert id="batchInsertFlight" parameterType="flight">
+        INSERT INTO flight(company_name,model,price,remain_seats)
+        VALUES
+        <foreach collection="list" item="flight" open="(" separator="),(" close=")">
+            #{flight.companyName},
+            #{flight.model},
+            #{flight.price},
+            #{flight.remainSeats}
+        </foreach>
+    </insert>
+
+    <!--批量删除航班-->
+    <delete id="batchDeleteFlight" parameterType="flight">
+        DELETE FROM flight WHERE plane_id IN
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item.planeId}
+        </foreach>
+    </delete>
+</mapper>

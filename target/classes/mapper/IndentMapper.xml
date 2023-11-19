@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/schema/mybatis-3-mapper.dtd">
+<mapper namespace="com.niit.mapper.IndentMapper">
+    <!--SQL公共语句-->
+    <sql id="selectAllColumns" >
+        select id,plane_id,username,phone,coach,price,seat_id,state
+    </sql>
+    <!--插入订单-->
+    <insert id="insertIndent" parameterType="indent">
+        insert into indent (plane_id,username,phone,coach,price,seat_id,state)
+        VALUES (
+        #{planeId},
+        #{username},
+        #{phone},
+        #{coach},
+        #{price},
+        #{seatId},
+        #{state})
+    </insert>
+</mapper>

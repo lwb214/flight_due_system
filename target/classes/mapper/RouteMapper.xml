@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/schema/mybatis-3-mapper.dtd">
+<mapper namespace="com.niit.mapper.RouteMapper">
+    <!--SQL公共语句-->
+    <sql id="selectAllColumns" >
+        select id,start_place,start_time,end_place,end_time,seat_number,total_time
+    </sql>
+    <!--查询所有航线-->
+    <select id="selectAll" resultType="route">
+        <include refid="selectAllColumns"></include>
+        from route
+    </select>
+    <!--查询指定出发地目的地的航线-->
+    <select id="selectStartToEnd" parameterType="String" resultType="route">
+        <include refid="selectAllColumns"></include>
+        from route where start_place = #{startPlace} and end_place = #{endPlace}
+    </select>
+    <!--添加航线-->
+    <insert id="insertRoute" parameterType="route">
+        insert into route (id,start_place,start_time,end_place,end_time,seat_number,total_time)
+        VALUES (
+        #{id},
+        #{startPlace},
+        #{startTime},
+        #{endPlace},
+        #{endTime},
+        #{seatNumber},
+        #{totalTime})
+    </insert>
+    <!--修改指定ID的航线-->
+    <update id="updateRoute" parameterType="route">
+        update route set
+        id = #{id},
+        start_place = #{startPlace},
+        start_time = #{startTime},
+        end_place = #{endPlace},
+        end_time = #{endTime},
+        seat_number = #{seatNumber},
+        total_time = #{totalTime}
+        where id = #{id}
+    </update>
+    <!--删除指定ID的航线 -->
+    <delete id="deleteRoute" parameterType="Integer">
+        delete from route where id in
+        <foreach collection="ids" open="(" separator=","  close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
